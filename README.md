@@ -1,4 +1,3 @@
-package-editor
-==============
+# Code Editor
 
-Code editor
+This package contains the code editor.

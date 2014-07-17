@@ -1,0 +1,12 @@
+{
+    "name": "editor",
+    "version": "0.0.0",
+    "description": "Code editor",
+    "main": "src/index",
+    "engines": {
+        "codebox": ">=1.0.0"
+    },
+    "packageDependencies": {
+        "tabs": "CodeboxIDE/package-tabs"
+    }
+}
