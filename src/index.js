@@ -1,5 +1,6 @@
 define([
-    "src/tab"
+    "src/tab",
+    "less!src/stylesheets/main.less"
 ], function(Tab) {
     var Q = codebox.require("hr/promise");
     var commands = codebox.require("core/commands");
