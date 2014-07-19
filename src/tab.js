@@ -1,8 +1,15 @@
 define([
-    "ace"
-], function(ace) {
+    "ace",
+    "src/languages"
+], function(ace, languages) {
     var hr = codebox.require("hr/hr");
     var keyboard = codebox.require("utils/keyboard");
+
+    // Import ace
+    var aceRange =  ace.require("ace/range");
+    var aceModes = ace.require("ace/ext/modelist");
+    var aceLangs = ace.require("ace/ext/language_tools");
+    var aceWhitespace = ace.require("ace/ext/whitespace");
 
     var Tab = codebox.tabs.Panel.extend({
         className: "component-editor",
@@ -52,6 +59,13 @@ define([
                 this.off();
                 this.stopListening();
             });
+
+            // File update
+            this.listenTo(this.model, "change", this.updateFile);
+            this.updateFile();
+
+            // Read file
+            this.read();
         },
 
         render: function() {
@@ -66,8 +80,32 @@ define([
             this.editor.resize();
             this.editor.renderer.updateFull();
             this.editor.focus();
-            return this;
         },
+
+        // Update file
+        updateFile: function() {
+            this.editor.getSession().setMode("ace/mode/"+languages.getModeByExtension(this.model.getExtension()));
+        },
+
+        // Set editor content
+        setContent: function(content) {
+            return this.editor.setValue(content);
+        },
+
+        // Get editor content
+        getContent: function(content) {
+            return this.editor.getValue();
+        },
+
+        // Read the file
+        read: function() {
+            var that = this;
+
+            return this.model.read()
+            .then(function(content) {
+                return that.setContent(content);
+            });
+        }
     });
 
     return Tab;

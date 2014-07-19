@@ -1,12 +1,16 @@
 define([
+    "ace",
     "src/tab",
     "src/commands",
     "less!src/stylesheets/main.less"
-], function(Tab) {
+], function(ace, Tab) {
     var Q = codebox.require("hr/promise");
     var commands = codebox.require("core/commands");
     var dialogs = codebox.require("utils/dialogs");
     var File = codebox.require("models/file");
+
+    var aceconfig = ace.require("ace/config");
+    aceconfig.set("basePath", "packages/editor/ace");
 
     var openFile = function(f) {
         if (f.isDirectory()) return Q.reject(new Error("Could not open a folder"));
