@@ -1,5 +1,6 @@
 define([
     "src/tab",
+    "src/commands",
     "less!src/stylesheets/main.less"
 ], function(Tab) {
     var Q = codebox.require("hr/promise");
@@ -13,6 +14,7 @@ define([
         return codebox.tabs.add(Tab, {
             model: f
         }, {
+            type: "editor",
             title: f.get("name"),
             uniqueId: "file://"+f.get("path")
         });
@@ -27,15 +29,14 @@ define([
     // Add command to open a file
     commands.register({
         id: "file.open",
-        title: "Open File",
-        palette: false,
+        title: "File: Open",
         run: function(args) {
             return Q()
             .then(function() {
                 if (args.file) return args.file;
-                if (!args.path) throw "Need 'path' to open a file";
+                if (args.path) return File.get(args.path);
 
-                return File.get(args.path)
+                return File.buffer("untitled", "");
             })
             .then(openFile);
         }
