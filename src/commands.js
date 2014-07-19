@@ -9,7 +9,7 @@ define(function(Tab) {
         shortcuts: [
             "mod+s"
         ],
-        context: "editor",
+        context: ["editor"],
         run: function(args, context) {
 
         }
