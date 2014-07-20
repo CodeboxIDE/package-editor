@@ -109,10 +109,10 @@ define([
 
             return this.model.read()
             .then(function(content) {
-                return that.setContent(content);
-            })
-            .then(function() {
+                that.setContent(content);
+                that.moveCursor(0, 0);
                 that.setTabState("modified", false);
+                that.focus();
             });
         },
 
@@ -124,6 +124,11 @@ define([
             .then(function() {
                 that.setTabState("modified", false);
             });
+        },
+
+        // Move cursor
+        moveCursor: function(x, y) {
+            this.editor.gotoLine(x, y);
         }
     });
 
