@@ -1,5 +1,20 @@
 define(function() {
-    return codebox.settings.model("editor", {
+    return codebox.settings.schema("editor",
+        {
+            "title": "Code Editor",
+            "type": "object",
+            "properties": {
+                "keyboard": {
+                    "type": "string",
+                    "enum": [
+                        "vim", "emacs", "textinput"
+                    ],
+                    "default": "textinput"
+                }
+            }
+        }
+    );
+    /*{
         'title': "Code Editor",
         'fields': {
             'keyboard': {
@@ -70,5 +85,5 @@ define(function() {
                 'default': 4
             }
         }
-    });
+    });*/
 });
