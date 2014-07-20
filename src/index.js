@@ -1,9 +1,10 @@
 define([
     "ace",
     "src/tab",
+    "src/settings",
     "src/commands",
     "less!src/stylesheets/main.less"
-], function(ace, Tab) {
+], function(ace, Tab, settings) {
     var Q = codebox.require("hr/promise");
     var commands = codebox.require("core/commands");
     var dialogs = codebox.require("utils/dialogs");
