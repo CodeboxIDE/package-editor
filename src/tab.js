@@ -15,6 +15,7 @@ define([
         className: "component-editor",
 
         initialize: function() {
+            var that = this;
             Tab.__super__.initialize.apply(this, arguments);
 
             // Create the ace editor
@@ -27,6 +28,11 @@ define([
                 'isDark': true,
                 'cssClass': "ace-codebox",
                 'cssText': ""
+            });
+
+            // Bind editor
+            this.editor.session.on('change', function(e) {
+                that.setTabState("modified", true);
             });
 
             // Allow commands shortcuts in the editor
@@ -104,6 +110,19 @@ define([
             return this.model.read()
             .then(function(content) {
                 return that.setContent(content);
+            })
+            .then(function() {
+                that.setTabState("modified", false);
+            });
+        },
+
+        // Write the file
+        write: function() {
+            var that = this;
+
+            return this.model.write(this.getContent())
+            .then(function() {
+                that.setTabState("modified", false);
             });
         }
     });

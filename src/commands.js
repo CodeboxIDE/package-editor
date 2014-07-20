@@ -2,7 +2,7 @@ define(function(Tab) {
     var Q = codebox.require("hr/promise");
     var commands = codebox.require("core/commands");
 
-    // Add command to open a file
+    // Save the file
     commands.register({
         id: "editor.save",
         title: "File: Save",
@@ -10,8 +10,8 @@ define(function(Tab) {
             "mod+s"
         ],
         context: ["editor"],
-        run: function(args, context) {
-
+        run: function(args, editor) {
+            return editor.write();
         }
     });
 });
