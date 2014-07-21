@@ -18,6 +18,11 @@ define([
             var that = this;
             Tab.__super__.initialize.apply(this, arguments);
 
+            // Messages
+            this.msgPosition = this.statusbar.add({
+                content: ""
+            });
+
             // Create the ace editor
             this.$editor = $("<div>", {
                 'class': "editor-content"
@@ -33,6 +38,15 @@ define([
             // Bind editor
             this.editor.session.on('change', function(e) {
                 that.setTabState("modified", true);
+            });
+
+            this.editor.session.selection.on('changeCursor', function(){
+                var cursor = that.editor.getSession().getSelection().getCursor();
+                that.msgPosition.set("content", "Line "+(cursor.row+1)+", Column "+(cursor.column+1));
+                that.trigger("cursor:change", {
+                    row: cursor.row,
+                    column: cursor.column
+                });
             });
 
             // Allow commands shortcuts in the editor
