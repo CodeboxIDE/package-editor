@@ -35,6 +35,10 @@ define([
             // Init the file
             this.initFile();
 
+            // Settings
+            this.listenTo(settings.data, "set", this.onSettingsChange);
+
+            this.onSettingsChange();
             this.onCursorChange();
             this.onModeChange();
         },
@@ -189,6 +193,11 @@ define([
         },
 
         ///// Events
+
+        // Settings changed
+        onSettingsChange: function() {
+            this.$editor.css("fontSize", settings.data.get("fontsize"));
+        },
 
         // Update file
         onFileChange: function() {

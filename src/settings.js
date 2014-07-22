@@ -10,6 +10,10 @@ define(function() {
                         "vim", "emacs", "textinput"
                     ],
                     "default": "textinput"
+                },
+                "fontsize": {
+                    "type": "integer",
+                    "default": 13
                 }
             }
         }
@@ -17,24 +21,6 @@ define(function() {
     /*{
         'title': "Code Editor",
         'fields': {
-            'keyboard': {
-                'label': "Keyboard mode",
-                'type': "select",
-                'options': {
-                    "vim": "Vim",
-                    "emacs": "Emacs",
-                    "textinput": "Default"
-                },
-                'default': "textinput"
-            },
-            'fontsize': {
-                'label': "Font Size",
-                'type': "number",
-                'min':  10,
-                'max': 30,
-                'step': 1,
-                'default': 12
-            },
             'printmargincolumn': {
                 'label': "Print Margin Column",
                 'type': "number",
