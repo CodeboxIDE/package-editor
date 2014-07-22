@@ -198,6 +198,7 @@ define([
         onSettingsChange: function() {
             this.$editor.css("fontSize", settings.data.get("fontsize"));
             this.editor.setShowPrintMargin(settings.data.get("showprintmargin"));
+            this.editor.setShowInvisibles(settings.data.get("showinvisibles"));
         },
 
         // Update file
