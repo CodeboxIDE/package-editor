@@ -196,9 +196,20 @@ define([
 
         // Settings changed
         onSettingsChange: function() {
+            var that = this;
+
+            ace.config.loadModule(["keybinding", "ace/keyboard/"+settings.data.get("keyboard")], function(binding) {
+                if (binding && binding.handler) that.editor.setKeyboardHandler(binding.handler);
+            });
+
             this.$editor.css("fontSize", settings.data.get("fontsize"));
             this.editor.setShowPrintMargin(settings.data.get("showprintmargin"));
             this.editor.setShowInvisibles(settings.data.get("showinvisibles"));
+            this.editor.setHighlightActiveLine(settings.data.get("highlightactiveline"));
+            this.editor.getSession().setUseWrapMode(settings.data.get("enablesoftwrap"));
+            this.editor.getSession().setWrapLimitRange(settings.data.get("wraplimitrange"), settings.data.get("wraplimitrange"));
+            this.editor.getSession().setUseSoftTabs(settings.data.get("enablesofttabs"));
+            this.editor.getSession().setTabSize(settings.data.get("tabsize"));
         },
 
         // Update file
