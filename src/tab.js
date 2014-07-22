@@ -1,7 +1,8 @@
 define([
     "ace",
+    "src/settings",
     "src/languages"
-], function(ace, languages) {
+], function(ace, settings, languages) {
     var hr = codebox.require("hr/hr");
     var keyboard = codebox.require("utils/keyboard");
 
@@ -77,7 +78,7 @@ define([
                 that.trigger("cursor:change", that.getCursor());
             });
 
-            this.editor.session.on('modeCursor', function() {
+            this.editor.session.on('changeMode', function() {
                 that.trigger("mode:change", that.getMode());
             });
 
@@ -203,6 +204,8 @@ define([
         // Mode change
         onModeChange: function() {
             var mode = this.getMode();
+            var lang = languages.getByMode(mode)
+            mode =  lang? lang.lang : mode;
             this.msgMode.set("content", mode);
         }
     });

@@ -9,6 +9,15 @@ define(function (_) {
             })
         },
 
+        /*
+         *  Return informations about a language
+         *  @lang : name of the language
+         */
+        getByMode: function(mode) {
+            return _.find(Languages.LIST, function(lang) {
+                return lang.ace_mode == mode;
+            });
+        },
 
         /*
          *  Return informations about a language
