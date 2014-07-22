@@ -18,74 +18,24 @@ define([
             var that = this;
             Tab.__super__.initialize.apply(this, arguments);
 
-            // Messages
-            this.msgPosition = this.statusbar.add({
-                content: ""
-            });
+            // Status bar messages
+            this.msgPosition = this.statusbar.add({});
+            this.listenTo(this, "cursor:change", this.onCursorChange);
 
-            // Create the ace editor
-            this.$editor = $("<div>", {
-                'class': "editor-content"
-            });
-            this.$editor.appendTo(this.$el);
-            this.editor = ace.edit(this.$editor.get(0));
-            this.editor.setTheme({
-                'isDark': true,
-                'cssClass': "ace-codebox",
-                'cssText': ""
-            });
+            this.msgMode = this.statusbar.add({ position: "right" });
+            this.listenTo(this, "mode:change", this.onModeChange);
 
-            // Bind editor
-            this.editor.session.on('change', function(e) {
-                that.setTabState("modified", true);
-            });
+            // Init the ace editor
+            this.initEditor();
 
-            this.editor.session.selection.on('changeCursor', function(){
-                var cursor = that.editor.getSession().getSelection().getCursor();
-                that.msgPosition.set("content", "Line "+(cursor.row+1)+", Column "+(cursor.column+1));
-                that.trigger("cursor:change", {
-                    row: cursor.row,
-                    column: cursor.column
-                });
-            });
+            // Init the tab
+            this.initTab();
 
-            // Allow commands shortcuts in the editor
-            var $input = this.editor.textInput.getElement();
-            var handleKeyEvent = function(e) {
-                if (!e.altKey && !e.ctrlKey && !e.metaKey) return;
-                keyboard.enableKeyEvent(e);
-            };
-            $input.addEventListener('keypress', handleKeyEvent, false);
-            $input.addEventListener('keydown', handleKeyEvent, false);
-            $input.addEventListener('keyup', handleKeyEvent, false);
+            // Init the file
+            this.initFile();
 
-            // Update editor layout
-            this.listenTo(this.tab, "tab:layout", function() {
-                this.editor.resize();
-                this.editor.renderer.updateFull();
-            });
-
-            // Focus editor
-            this.listenTo(this.tab, "tab:state", function(state) {
-                if (state) this.focus();
-            });
-
-            // Clear editor when tab close
-            this.listenTo(this.tab, "tab:close", function() {
-                // Destroy the editor
-                this.editor.destroy();
-
-                // Destroy events and instance
-                this.off();
-                this.stopListening();
-            });
-
-            // File update
-            this.listenTo(this.model, "change", this.updateFile);
-            this.updateFile();
-
-            // Read file
-            this.read();
+            this.onCursorChange();
+            this.onModeChange();
         },
 
         render: function() {
@@ -102,10 +52,77 @@ define([
             this.editor.focus();
         },
 
-        // Update file
-        updateFile: function() {
-            this.editor.getSession().setMode("ace/mode/"+languages.getModeByExtension(this.model.getExtension()));
+        // Init editor
+        initEditor: function() {
+            var that = this;
+
+            this.$editor = $("<div>", {
+                'class': "editor-content"
+            });
+            this.$editor.appendTo(this.$el);
+            this.editor = ace.edit(this.$editor.get(0));
+
+            this.editor.setTheme({
+                'isDark': true,
+                'cssClass': "ace-codebox",
+                'cssText': ""
+            });
+
+            this.editor.session.on('change', function(e) {
+                that.setTabState("modified", true);
+                that.trigger("content:change");
+            });
+
+            this.editor.session.selection.on('changeCursor', function() {
+                that.trigger("cursor:change", that.getCursor());
+            });
+
+            this.editor.session.on('modeCursor', function() {
+                that.trigger("mode:change", that.getMode());
+            });
+
+            // Allow commands shortcuts in the editor
+            var $input = this.editor.textInput.getElement();
+            var handleKeyEvent = function(e) {
+                if (!e.altKey && !e.ctrlKey && !e.metaKey) return;
+                keyboard.enableKeyEvent(e);
+            };
+            $input.addEventListener('keypress', handleKeyEvent, false);
+            $input.addEventListener('keydown', handleKeyEvent, false);
+            $input.addEventListener('keyup', handleKeyEvent, false);
         },
+
+        // Init the tab
+        initTab: function() {
+            this.listenTo(this.tab, "tab:layout", function() {
+                this.editor.resize();
+                this.editor.renderer.updateFull();
+            });
+
+            this.listenTo(this.tab, "tab:state", function(state) {
+                if (state) this.focus();
+            });
+
+            this.listenTo(this.tab, "tab:close", function() {
+                // Destroy the editor
+                this.editor.destroy();
+
+                // Destroy events and instance
+                this.off();
+                this.stopListening();
+            });
+        },
+
+        // Init the file
+        initFile: function() {
+            this.listenTo(this.model, "change", this.onFileChange);
+            this.onFileChange();
+
+            // Read file
+            this.read();
+        },
+
+        ///// Content management
 
         // Set editor content
         setContent: function(content) {
@@ -116,6 +133,8 @@ define([
         getContent: function(content) {
             return this.editor.getValue();
         },
+
+        ///// File management
 
         // Read the file
         read: function() {
@@ -140,9 +159,51 @@ define([
             });
         },
 
+        ///// Cursor management
+
         // Move cursor
         moveCursor: function(x, y) {
             this.editor.gotoLine(x, y);
+        },
+
+        // Return cursor position
+        getCursor: function() {
+            var cursor = this.editor.getSession().getSelection().getCursor();
+            return {
+                row: cursor.row,
+                column: cursor.column
+            };
+        },
+
+        ///// Settings management
+
+        // Define the mode
+        setMode: function(mode) {
+            this.editor.session.setMode("ace/mode/"+mode);
+        },
+
+        // Return the mode
+        getMode: function() {
+            return this.editor.session.getMode().$id.replace("ace/mode/", "");
+        },
+
+        ///// Events
+
+        // Update file
+        onFileChange: function() {
+            this.setMode(languages.getModeByExtension(this.model.getExtension()));
+        },
+
+        // Cursor move
+        onCursorChange: function() {
+            var cursor = this.getCursor();
+            this.msgPosition.set("content", "Line "+(cursor.row+1)+", Column "+(cursor.column+1));
+        },
+
+        // Mode change
+        onModeChange: function() {
+            var mode = this.getMode();
+            this.msgMode.set("content", mode);
         }
     });
 
