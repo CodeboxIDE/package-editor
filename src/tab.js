@@ -99,7 +99,7 @@ define([
 
         // Init the tab
         initTab: function() {
-            this.listenTo(this.tab, "tab:layout", function() {
+            this.listenTo(this, "tab:layout", function() {
                 this.editor.resize();
                 this.editor.renderer.updateFull();
             });
