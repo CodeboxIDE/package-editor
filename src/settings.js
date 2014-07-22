@@ -14,6 +14,10 @@ define(function() {
                 "fontsize": {
                     "type": "integer",
                     "default": 13
+                },
+                "showprintmargin": {
+                    "type": "boolean",
+                    "default": false
                 }
             }
         }
