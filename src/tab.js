@@ -155,7 +155,7 @@ define([
         },
 
         // Write the file
-        write: function() {
+        save: function() {
             var that = this;
 
             return this.model.write(this.getContent())

@@ -11,7 +11,25 @@ define(function(Tab) {
         ],
         context: ["editor"],
         run: function(args, editor) {
-            return editor.write();
+            return editor.save();
+        }
+    });
+
+    // Save all files
+    commands.register({
+        id: "editor.save.all",
+        title: "File: Save All",
+        shortcuts: [
+            "mod+alt+s"
+        ],
+        run: function(args, editor) {
+            return codebox.tabs.tabs.reduce(function(prev, tab) {
+                if (tab.get("type") != "editor") return prev;
+
+                return prev.then(function() {
+                    return tab.view.save();
+                })
+            }, Q());
         }
     });
 });
