@@ -214,7 +214,8 @@ define([
 
         // Update file
         onFileChange: function() {
-            this.setMode(languages.getModeByExtension(this.model.getExtension()));
+            var mode = languages.getByExtension(this.model.getExtension());
+            this.setMode(mode? mode.name : "text");
         },
 
         // Cursor move
@@ -227,7 +228,7 @@ define([
         onModeChange: function() {
             var mode = this.getMode();
             var lang = languages.getByMode(mode)
-            mode =  lang? lang.lang : mode;
+            mode =  lang? lang.caption : mode;
             this.msgMode.set("content", mode);
         }
     });

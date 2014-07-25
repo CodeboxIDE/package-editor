@@ -1,6 +1,7 @@
 define(function(Tab) {
     var Q = codebox.require("hr/promise");
     var commands = codebox.require("core/commands");
+    var aceModes = ace.require("ace/ext/modelist");
 
     // Save the file
     commands.register({
@@ -22,7 +23,7 @@ define(function(Tab) {
         shortcuts: [
             "mod+alt+s"
         ],
-        run: function(args, editor) {
+        run: function(args) {
             return codebox.tabs.tabs.reduce(function(prev, tab) {
                 if (tab.get("type") != "editor") return prev;
 
@@ -32,4 +33,16 @@ define(function(Tab) {
             }, Q());
         }
     });
+
+    // Set syntax
+    commands.register(_.map(aceModes.modesByName, function(mode) {
+        return {
+            id: "editor.syntax."+mode.name,
+            title: "Set Syntax: "+mode.caption,
+            context: ["editor"],
+            run: function(args, editor) {
+                editor.setMode(mode.name);
+            }
+        }
+    }));
 });

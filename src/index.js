@@ -25,11 +25,14 @@ define([
         });
     };
 
+    var openNewfile = function() {
+        var f = File.buffer("untitled", "");
+        openFile(f);
+    };
+
     // Default tab is an empty buffer
-    codebox.tabs.on("tabs:opennew", function() {
-        openFile(File.buffer("untitled", ""));
-    });
-    openFile(File.buffer("untitled", ""));
+    codebox.tabs.on("tabs:opennew", openNewfile);
+    openNewfile();
 
     // Add command to open a file
     commands.register({
