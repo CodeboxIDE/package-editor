@@ -77,6 +77,13 @@ define([
                 'cssText': ""
             });
 
+            this.editor.session.setUseWorker(true);
+            this.editor.setOptions({
+                enableBasicAutocompletion: true,
+                enableSnippets: true
+            });
+            this.editor.session.doc.setNewLineMode("unix");
+
             this.editor.session.on('change', function(e) {
                 that.setTabState("modified", true);
                 that.trigger("content:change");
@@ -89,6 +96,30 @@ define([
             this.editor.session.on('changeMode', function() {
                 that.trigger("mode:change", that.getMode());
             });
+
+            // Clear command on Windows/ChromeOS Ctrl-Shift-P
+            this.editor.commands.addCommands([{
+                name: "commandpalette",
+                bindKey: {
+                    win: "Ctrl-Shift-P",
+                    mac: "Command-Shift-P"
+                },
+                exec: function(editor, line) {
+                    return false;
+                },
+                readOnly: true
+            }]);
+            this.editor.commands.addCommands([{
+                name: "showSettingsMenu",
+                bindKey: {
+                    win: "Ctrl-Shift-P",
+                    mac: "Command-Shift-P"
+                },
+                exec: function(editor, line) {
+                    return false;
+                },
+                readOnly: true
+            }]);
 
             // Allow commands shortcuts in the editor
             var $input = this.editor.textInput.getElement();
