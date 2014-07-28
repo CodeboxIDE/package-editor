@@ -5,6 +5,7 @@ define([
 ], function(ace, settings, languages) {
     var hr = codebox.require("hr/hr");
     var keyboard = codebox.require("utils/keyboard");
+    var dialogs = codebox.require("utils/dialogs");
 
     // Import ace
     var aceRange =  ace.require("ace/range");
@@ -23,7 +24,10 @@ define([
             this.msgPosition = this.statusbar.add({});
             this.listenTo(this, "cursor:change", this.onCursorChange);
 
-            this.msgMode = this.statusbar.add({ position: "right" });
+            this.msgMode = this.statusbar.add({
+                position: "right",
+                click: this.onSelectMode.bind(this)
+            });
             this.listenTo(this, "mode:change", this.onModeChange);
 
             // Init the ace editor
@@ -230,6 +234,17 @@ define([
             var lang = languages.getByMode(mode)
             mode =  lang? lang.caption : mode;
             this.msgMode.set("content", mode);
+        },
+
+        // Click to select mode
+        onSelectMode: function(e) {
+            var that = this;
+            dialogs.list(languages.all, {
+                template: "<div class='item-text'><%- item.get('caption') %></div>"
+            })
+            .then(function(mode) {
+                return that.setMode(mode.get("name"));
+            })
         }
     });
 

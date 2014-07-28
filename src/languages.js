@@ -17,7 +17,15 @@ define(function (_) {
         });
     };
 
+    var allModes = _.map(aceModes.modesByName, function(mode) {
+        return {
+            'name': mode.name,
+            'caption': mode.caption
+        };
+    });
+
     return {
+        all: allModes,
         getByExtension: getByExtension,
         getByMode: getByMode
     };
