@@ -328,6 +328,21 @@ define([
             delete this.markersS[cId];
         },
 
+        // Remove all another cursors/selections
+        removeAllExt: function() {
+            _.each(
+                [].concat(
+                    _.keys(this.markersS),
+                    _.keys(this.markersC)
+                ),
+                function(cId) {
+                    this.removeSelectionExt(cId);
+                    this.removeCursorExt(cId);
+                },
+                this
+            );
+        },
+
         ///// Settings management
 
         // Define the mode
