@@ -97,6 +97,11 @@ define([
                 that.trigger("cursor:change", that.getCursor());
             });
 
+            this.editor.session.selection.on('changeSelection', function(){
+                var selection = that.editor.getSelectionRange();
+                that.trigger("selection:change", that.getSelection());
+            });
+
             this.editor.session.on('changeMode', function() {
                 that.trigger("mode:change", that.getMode());
             });
@@ -168,6 +173,11 @@ define([
 
         ///// Content management
 
+        // Toggle readonly
+        setReadOnly: function(b) {
+            this.editor.setReadOnly(b);
+        },
+
         // Set editor content
         setContent: function(content) {
             return this.editor.setValue(content);
@@ -176,6 +186,21 @@ define([
         // Get editor content
         getContent: function(content) {
             return this.editor.getValue();
+        },
+
+        // Apply delta changement
+        applyDocDeltas: function(deltas) {
+            return this.editor.session.doc.applyDeltas(deltas);
+        },
+
+        // Return doc content
+        getDocContent: function() {
+            return this.editor.session.doc.getValue();
+        },
+
+        // Set doc content
+        setDocContent: function(c) {
+            this.editor.session.doc.setValue(c);
         },
 
         ///// File management
@@ -203,7 +228,33 @@ define([
             });
         },
 
-        ///// Cursor management
+        ///// Cursor/Selection/Position management
+
+        // Get position (row, column) from index in file
+        posFromIndex: function(index) {
+            var row, lines;
+            lines = this.editor.session.doc.getAllLines();
+            for (row = 0; row < lines.length; row++) {
+                var line = lines[row];
+                if (index <= (line.length)) break;
+                index = index - (line.length + 1);
+            }
+
+            return {
+                'row': row,
+                'column': index
+            };
+        },
+
+        // Return scrolling position
+        getScrollTop: function() {
+            return this.editor.session.getScrollTop();
+        },
+
+        // Set scrolling position
+        setScrollTop: function(y) {
+            this.editor.session.setScrollTop(y);
+        },
 
         // Move cursor
         moveCursor: function(x, y) {
@@ -219,6 +270,28 @@ define([
             };
         },
 
+        // Get selection
+        getSelection: function() {
+            var selection = this.editor.getSelectionRange();
+            return {
+                start: {
+                    row: selection.start.row,
+                    column: selection.start.column
+                },
+                end: {
+                    row: selection.end.row,
+                    column: selection.end.column
+                }
+            };
+        },
+
+        // Get selection
+        setSelection: function(anchor, lead) {
+            if (anchor) this.editor.getSession().getSelection().setSelectionAnchor(anchor.row, anchor.column);
+            if (lead) this.editor.getSession().getSelection().selectTo(lead.row, lead.column);
+        },
+
+        // Move other cursor
         moveCursorExt: function(cId, c) {
             var name, range = new aceRange.Range(c.y, c.x, c.y, c.x+1);
 
@@ -236,18 +309,23 @@ define([
             }, true);
         },
 
+        // Remove an other cursor
         removeCursorExt: function(cId) {
             if (this.markersC[cId]) this.editor.getSession().removeMarker(this.markersC[cId]);
+            delete this.markersC[cId];
         },
 
+        // Move an other selection
         moveSelectionExt: function(cId, c) {
             var range = new aceRange.Range(c.start.y, c.start.x, c.end.y, c.end.x);
             if (this.markersS[cId]) this.editor.getSession().removeMarker(this.markersS[cId]);
             this.markersS[cId] = this.editor.getSession().addMarker(range, "marker-selection marker-"+c.color.replace("#", ""), "line", false);
         },
 
+        // Remove another selection
         removeSelectionExt: function(cId) {
             if (this.markersS[cId]) this.editor.getSession().removeMarker(this.markersS[cId]);
+            delete this.markersS[cId];
         },
 
         ///// Settings management
