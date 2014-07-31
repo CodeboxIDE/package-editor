@@ -65,6 +65,10 @@ define([
         initEditor: function() {
             var that = this;
 
+            // Map of current cursors
+            this.markersC = {};
+            this.markersS = {};
+
             this.$editor = $("<div>", {
                 'class': "editor-content"
             });
@@ -213,6 +217,37 @@ define([
                 row: cursor.row,
                 column: cursor.column
             };
+        },
+
+        moveCursorExt: function(cId, c) {
+            var name, range = new aceRange.Range(c.y, c.x, c.y, c.x+1);
+
+            // Remove old cursor
+            if (this.markersC[cId]) this.editor.getSession().removeMarker(this.markersC[cId]);
+
+            // Calcul name
+            name = c.title || cId;
+
+            // Add new cursor
+            this.markersC[cId] = this.editor.getSession().addMarker(range, "marker-cursor marker-"+c.color.replace("#", ""), function(html, range, left, top, config){
+                html.push("<div class='marker-cursor' style='top: "+top+"px; left: "+left+"px; border-left-color: "+c.color+"; border-bottom-color: "+c.color+";'>"
+                + "<div class='marker-cursor-nametag' style='background: "+c.color+";'>&nbsp;"+name+"&nbsp;<div class='marker-cursor-nametag-flag' style='border-right-color: "+c.color+"; border-bottom-color: "+c.color+";'></div>"
+                + "</div>&nbsp;</div>");
+            }, true);
+        },
+
+        removeCursorExt: function(cId) {
+            if (this.markersC[cId]) this.editor.getSession().removeMarker(this.markersC[cId]);
+        },
+
+        moveSelectionExt: function(cId, c) {
+            var range = new aceRange.Range(c.start.y, c.start.x, c.end.y, c.end.x);
+            if (this.markersS[cId]) this.editor.getSession().removeMarker(this.markersS[cId]);
+            this.markersS[cId] = this.editor.getSession().addMarker(range, "marker-selection marker-"+c.color.replace("#", ""), "line", false);
+        },
+
+        removeSelectionExt: function(cId) {
+            if (this.markersS[cId]) this.editor.getSession().removeMarker(this.markersS[cId]);
         },
 
         ///// Settings management
