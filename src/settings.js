@@ -48,7 +48,7 @@ define(function() {
                     "minimum":  0,
                     "maximum": 1000,
                     "multipleOf": 1,
-                    "default": false
+                    "default": 60
                 },
                 "wraplimitrange": {
                     "description": "Wrap Limit Range",
