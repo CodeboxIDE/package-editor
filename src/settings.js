@@ -14,7 +14,7 @@ define(function() {
                 },
                 "fontsize": {
                     "description": "Font Size",
-                    "type": "integer",
+                    "type": "number",
                     "default": 13
                 },
                 "showprintmargin": {
