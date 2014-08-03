@@ -148,11 +148,11 @@ define([
                 this.editor.renderer.updateFull();
             });
 
-            this.listenTo(this.tab, "tab:state", function(state) {
+            this.listenTo(this, "tab:state", function(state) {
                 if (state) this.focus();
             });
 
-            this.listenTo(this.tab, "tab:close", function() {
+            this.listenTo(this, "tab:close", function() {
                 // Destroy the editor
                 this.editor.destroy();
 
