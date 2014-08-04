@@ -1,3 +1,61 @@
+// Main background
+@bg: #2d2d2d;
+
+// Line number gutter color
+@gutter-bg: @bg;
+@gutter-color: #5c5c59;
+@gutter-color: #807E79;
+
+// Background of code selection
+@select-bg: #3f3f3f;
+
+// Colors for inactive tabs
+@tab-text-color: #494844;
+@tab-bg: #0f0f0f;
+
+// Colors for active tabs
+@tab-active-bg: @bg;
+@tab-active-text-color: #748788;
+
+// Color of active lines, etc ...
+@active-color: #323333;
+
+
+/*
+ * Syntaxic highlighting
+ */
+
+// Color of class and types
+@syntax-class: #fbbe3e;
+
+// Color of variables
+@syntax-variable: #d13226;
+@syntax-variable: #e4372b;
+@syntax-variable: #DC4831;
+
+// Color of a language's keyword
+@syntax-keyword: #fbbd53;
+
+// Color of a string literal
+@syntax-string: #94b949;
+@syntax-string: #A4C35B;
+
+// Color of number and float literals
+@syntax-number: #c1641f;
+
+// Color of regexes
+@syntax-regex: #40913b;
+
+// Color of methods and attributes
+@syntax-method: #5989b3;
+
+// Color of comments
+@syntax-comment: #474f52;
+
+/*
+ * Layout & Styling
+ */
+
 .ace_editor {
     /* Search dialog */
     .ace_search, .ace_search.right {
@@ -50,19 +108,19 @@
 }
 
 .ace_editor.ace-codebox {
-    background-color: @color-2;
+    background-color: @bg;
     color: #C5C8C6;
-    font-family: 'Source Code Pro',sans-serif;
+    font-family: 'Source Code Pro', "menlo", monospace, sans-serif;
     font-size: @font-size-normal;
 
     .ace_gutter {
-        background: @color-2;
-        color: #757a84
+        background: @gutter-bg;
+        color: @gutter-color;
     }
 
     .ace_print-margin {
         width: 1px;
-        background: #333d46
+        background: @active-color
     }
 
     .ace_cursor {
@@ -70,7 +128,7 @@
     }
 
     .ace_marker-layer .ace_selection {
-        background: #3d4550;
+        background: @select-bg;
     }
 
     &.ace_multiselect .ace_selection.ace_start {
@@ -88,11 +146,11 @@
     }
 
     .ace_marker-layer .ace_active-line {
-        background: #333d46
+        background: @active-color
     }
 
     .ace_gutter-active-line {
-        /*background-color: #333d46;*/
+        background-color: @active-color;
     }
 
     .ace_marker-layer .ace_selected-word {
@@ -108,7 +166,7 @@
     .ace_storage,
     .ace_storage.ace_type,
     .ace_support.ace_type {
-        color: #B294BB
+        color: @syntax-keyword;
     }
 
     .ace_keyword.ace_operator {
@@ -121,7 +179,7 @@
     .ace_keyword.ace_other.ace_unit,
     .ace_support.ace_constant,
     .ace_variable.ace_parameter {
-        color: #cc856c
+        color: @syntax-number;
     }
 
     .ace_constant.ace_other {
@@ -146,29 +204,30 @@
     .ace_entity.ace_name.ace_function,
     .ace_support.ace_function,
     .ace_variable {
-        color: #81A2BE
+        color: @syntax-method;
     }
 
     .ace_support.ace_class,
     .ace_support.ace_type {
-        color: #F0C674
+        color: @syntax-class;
     }
 
     .ace_heading,
     .ace_string {
-        color: #9dbe8c
+        color: @syntax-string;
     }
 
     .ace_entity.ace_name.ace_tag,
     .ace_entity.ace_other.ace_attribute-name,
     .ace_meta.ace_tag,
     .ace_string.ace_regexp,
+    .ace_indentifier,
     .ace_variable {
-        color: #b55761
+        color: @syntax-variable;
     }
 
     .ace_comment {
-        color: #969896
+        color: @syntax-comment;
     }
 
     .ace_indent-guide {
