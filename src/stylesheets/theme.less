@@ -21,6 +21,7 @@
 @active-color: #323333;
 
 
+
 /*
  * Syntaxic highlighting
  */
@@ -51,6 +52,18 @@
 
 // Color of comments
 @syntax-comment: #474f52;
+
+
+/*
+ * Autocomplete
+ */
+@popup-bg: #393939;
+@autocomplete-bg: #393939;
+@autocomplete-color: #747369;
+@autocomplete-match-color: #d3d0c8;
+@autocomplete-selected-bg: #515151;
+@autocomplete-selected-color: @autocomplete-color;
+@autocomplete-selected-match-color: @autocomplete-match-color;
 
 /*
  * Layout & Styling
@@ -238,8 +251,8 @@
     &.ace_autocomplete {
         width: 280px;
         z-index: 200000;
-        background: #323d46;
-        color: #65737e;
+        background: @autocomplete-bg;
+        color: @autocomplete-color;
         border: none;
         position: fixed;
         box-shadow: 2px 3px 5px rgba(0,0,0,.2);
@@ -249,12 +262,12 @@
         -webkit-font-smoothing: subpixel-antialiased;
 
         .ace_marker-layer .ace_active-line {
-            background-color: #4f5b67;
+            background-color: @autocomplete-selected-bg;
             z-index: 1;
         }
         .ace_text-layer .ace_selected,
         .ace_text-layer .ace_selected .ace_rightAlignedText{
-            color: #a1adba;
+            color: @autocomplete-selected-color;
         }
         .ace_line-hover {
             border: none;
@@ -266,7 +279,7 @@
             z-index: 2;
         }
         .ace_rightAlignedText {
-            color: #65737e;
+            color: @autocomplete-color;
             font-style: italic;
             display: inline-block;
             position: absolute;
@@ -275,7 +288,7 @@
             z-index: -1;
         }
         .ace_completion-highlight{
-            color: #c0c5ce;
+            color: @autocomplete-match-color;
         }
     }
 
