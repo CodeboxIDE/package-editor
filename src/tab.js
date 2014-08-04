@@ -222,7 +222,7 @@ define([
         save: function() {
             var that = this;
 
-            return this.model.write(this.getContent())
+            return this.model.save(this.getContent())
             .then(function() {
                 that.setTabState("modified", false);
             });
@@ -379,6 +379,8 @@ define([
         onFileChange: function() {
             var mode = languages.getByExtension(this.model.getExtension());
             this.setMode(mode? mode.name : "text");
+            this.setTabTitle(this.model.get("name", "loading..."));
+            this.setTabId("file://"+this.model.get("path"));
         },
 
         // Cursor move
