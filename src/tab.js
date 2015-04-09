@@ -104,6 +104,30 @@ var Tab = codebox.tabs.Panel.extend({
             that.trigger("mode:change", that.getMode());
         });
 
+        // Clear command on Windows/ChromeOS Ctrl-Shift-P
+        this.editor.commands.addCommands([{
+            name: "commandpalette",
+            bindKey: {
+                win: "Ctrl-Shift-P",
+                mac: "Command-Shift-P"
+            },
+            exec: function(editor, line) {
+                return false;
+            },
+            readOnly: true
+        }]);
+        this.editor.commands.addCommands([{
+            name: "showSettingsMenu",
+            bindKey: {
+                win: "Ctrl-,",
+                mac: "Command-,"
+            },
+            exec: function(editor, line) {
+                return false;
+            },
+            readOnly: true
+        }]);
+
         // Allow commands shortcuts in the editor
         var $input = this.editor.textInput.getElement();
         var handleKeyEvent = function(e) {
