@@ -1,70 +1,3 @@
-// Main background
-@bg: #2d2d2d;
-
-// Line number gutter color
-@gutter-bg: @bg;
-@gutter-color: #5c5c59;
-@gutter-color: #807E79;
-
-// Background of code selection
-@select-bg: #3f3f3f;
-
-// Colors for inactive tabs
-@tab-text-color: #494844;
-@tab-bg: #0f0f0f;
-
-// Colors for active tabs
-@tab-active-bg: @bg;
-@tab-active-text-color: #748788;
-
-// Color of active lines, etc ...
-@active-color: #323333;
-
-
-
-/*
- * Syntaxic highlighting
- */
-
-// Color of class and types
-@syntax-class: #fbbe3e;
-
-// Color of variables
-@syntax-variable: #d13226;
-@syntax-variable: #e4372b;
-@syntax-variable: #DC4831;
-
-// Color of a language's keyword
-@syntax-keyword: #fbbd53;
-
-// Color of a string literal
-@syntax-string: #94b949;
-@syntax-string: #A4C35B;
-
-// Color of number and float literals
-@syntax-number: #c1641f;
-
-// Color of regexes
-@syntax-regex: #40913b;
-
-// Color of methods and attributes
-@syntax-method: #5989b3;
-
-// Color of comments
-@syntax-comment: #474f52;
-
-
-/*
- * Autocomplete
- */
-@popup-bg: #393939;
-@autocomplete-bg: #393939;
-@autocomplete-color: #747369;
-@autocomplete-match-color: #d3d0c8;
-@autocomplete-selected-bg: #515151;
-@autocomplete-selected-color: @autocomplete-color;
-@autocomplete-selected-match-color: @autocomplete-match-color;
-
 /*
  * Layout & Styling
  */
@@ -122,7 +55,7 @@
 
 .ace_editor.ace-codebox {
     background-color: @bg;
-    color: #C5C8C6;
+    color: @text-color;
     font-family: 'Source Code Pro', "menlo", monospace, sans-serif;
     font-size: @font-size-normal;
 
