@@ -8,8 +8,5 @@
     },
     "packageDependencies": {
         "tabs": "CodeboxIDE/package-tabs"
-    },
-    "dependencies": {
-        "brace": "0.5.0"
     }
 }
