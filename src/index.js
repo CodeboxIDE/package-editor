@@ -19,7 +19,10 @@ var openFile = function(f) {
     }, {
         type: "editor",
         title: f.get("name"),
-        uniqueId: "file://"+f.get("path")
+        uniqueId: "file://"+f.get("path"),
+        context: {
+            file: f
+        }
     });
 };
 
@@ -36,11 +39,12 @@ openNewfile();
 commands.register({
     id: "file.open",
     title: "File: Open",
-    run: function(args) {
+    run: function(args, ctx) {
         return Q()
         .then(function() {
             if (args.file) return args.file;
             if (args.path) return File.get(args.path);
+            if (ctx.file) return ctx.file;
 
             return File.buffer("untitled", "");
         })
