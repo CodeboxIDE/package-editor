@@ -19,7 +19,7 @@ var openFile = function(f) {
     }, {
         type: "editor",
         title: f.get("name"),
-        uniqueId: "file://"+f.get("path"),
+        uniqueId: "editor://"+f.get("path"),
         context: {
             file: f
         }
