@@ -61,8 +61,8 @@ commands.register({
         "mod+s"
     ],
     context: ["editor"],
-    run: function(args, editor) {
-        return editor.save();
+    run: function(args, ctx) {
+        return ctx.editor.save();
     }
 });
 
