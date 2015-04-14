@@ -82,6 +82,7 @@ var Tab = codebox.tabs.Panel.extend({
         this.editor.session.setUseWorker(true);
         this.editor.setOptions({
             enableBasicAutocompletion: true,
+            enableLiveAutocompletion: true,
             enableSnippets: true
         });
         this.editor.session.doc.setNewLineMode("unix");

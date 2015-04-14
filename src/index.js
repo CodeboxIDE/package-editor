@@ -108,3 +108,8 @@ codebox.menubar.createMenu("view", {
         }
     })
 });
+
+codebox.editor = {
+    ace: ace
+};
+
