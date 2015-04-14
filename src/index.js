@@ -90,8 +90,8 @@ commands.register(_.map(aceModes.modesByName, function(mode) {
         id: "editor.syntax."+mode.name,
         title: "Set Syntax: "+mode.caption,
         context: ["editor"],
-        run: function(args, editor) {
-            editor.setMode(mode.name);
+        run: function(args, ctx) {
+            ctx.editor.setMode(mode.name);
         }
     }
 }));
