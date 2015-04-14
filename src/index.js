@@ -96,3 +96,15 @@ commands.register(_.map(aceModes.modesByName, function(mode) {
     }
 }));
 
+// Syntax menu
+codebox.menubar.createMenu("view", {
+    id: "syntax",
+    caption: "Syntax",
+    position: 10,
+    items: _.map(aceModes.modesByName, function(mode) {
+        return {
+            command: "editor.syntax."+mode.name,
+            caption: mode.caption
+        }
+    })
+});
