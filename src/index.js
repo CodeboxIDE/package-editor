@@ -109,7 +109,5 @@ codebox.menubar.createMenu("view", {
     })
 });
 
-codebox.editor = {
-    ace: ace
-};
+codebox.editor = require("./api");
 

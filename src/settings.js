@@ -64,6 +64,11 @@ module.exports = codebox.settings.schema("editor",
                 "maximum": 1000,
                 "multipleOf": 1,
                 "default": 4
+            },
+            "autocompletion": {
+                "title": "Live Autocompletion",
+                "type": "boolean",
+                "default": true
             }
         }
     }

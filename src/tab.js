@@ -372,6 +372,11 @@ var Tab = codebox.tabs.Panel.extend({
         this.editor.getSession().setWrapLimitRange(settings.data.get("wraplimitrange"), settings.data.get("wraplimitrange"));
         this.editor.getSession().setUseSoftTabs(settings.data.get("enablesofttabs"));
         this.editor.getSession().setTabSize(settings.data.get("tabsize"));
+        this.editor.setOptions({
+            enableBasicAutocompletion: true,
+            enableLiveAutocompletion: settings.data.get("autocompletion"),
+            enableSnippets: true
+        });
     },
 
     // Update file
