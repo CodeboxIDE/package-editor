@@ -11,6 +11,14 @@ module.exports = _.map([
         title: "Find"
     },
     {
+        id: "findnext",
+        title: "Find Next"
+    },
+    {
+        id: "findprevious",
+        title: "Find Previous"
+    },
+    {
         id: "replace",
         title: "Replace"
     }
