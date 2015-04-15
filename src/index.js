@@ -44,11 +44,16 @@ commands.register({
         .then(function() {
             if (args.file) return args.file;
             if (args.path) return File.get(args.path);
-            if (ctx.file) return ctx.file;
 
             return File.buffer("untitled", "");
         })
-        .then(openFile);
+        .then(openFile)
+        .then(function(tag) {
+            // Set line
+            if (args.line || args.column) {
+                tag.moveCursor(args.column || 0, args.line || 0);
+            }
+        });
     }
 });
 
