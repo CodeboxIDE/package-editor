@@ -4,6 +4,7 @@ var ace = require("./ace");
 var aceModes = ace.require("ace/ext/modelist");
 var Tab = require("./tab");
 var settings = require("./settings");
+var editorCommands = require("./commands");
 
 var Q = codebox.require("q");
 var _ = codebox.require("hr.utils");
@@ -57,7 +58,6 @@ commands.register({
     }
 });
 
-
 // Save the file
 commands.register({
     id: "editor.save",
@@ -88,6 +88,9 @@ commands.register({
         }, Q());
     }
 });
+
+// Map ace commands
+commands.register(editorCommands);
 
 // Set syntax
 commands.register(_.map(aceModes.modesByName, function(mode) {

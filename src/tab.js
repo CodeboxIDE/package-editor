@@ -342,6 +342,11 @@ var Tab = codebox.tabs.Panel.extend({
         );
     },
 
+    ///// Find and replace
+    execCommand: function(cmd, e) {
+        this.editor.commands.exec(cmd, this.editor);
+    },
+
     ///// Settings management
 
     // Define the mode
