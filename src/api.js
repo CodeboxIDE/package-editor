@@ -9,7 +9,7 @@ var addCompleter = function(fn) {
         getCompletions: function(editor, session, pos, prefix, callback) {
             Q()
             .then(function() {
-                return fn(editor, session, pos, prefix);
+                return fn(editor.__tabEditor, pos, prefix);
             }).then(function(data) {
                 callback(null, data);
             }, function(err) {
