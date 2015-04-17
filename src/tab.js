@@ -72,7 +72,7 @@ var Tab = codebox.tabs.Panel.extend({
         });
         this.$editor.appendTo(this.$el);
         this.editor = ace.edit(this.$editor.get(0));
-        this.__tabEditor = this;
+        this.editor.__tabEditor = this;
 
         this.editor.setTheme({
             'isDark': true,
