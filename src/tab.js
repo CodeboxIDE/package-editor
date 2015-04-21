@@ -390,7 +390,7 @@ var Tab = codebox.tabs.Panel.extend({
         var mode = languages.getByExtension(this.model.getExtension());
         this.setMode(mode? mode.name : "text");
         this.setTabTitle(this.model.get("name", "loading..."));
-        this.setTabId("file://"+this.model.get("path"));
+        this.setTabId("editor://"+this.model.get("path"));
     },
 
     // Cursor move
