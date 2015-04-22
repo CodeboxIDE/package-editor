@@ -1,9 +1,9 @@
 var ace = require("./ace");
 var Q = codebox.require("q");
 var _ = codebox.require("hr.utils");
-
 var logger = codebox.require("hr.logger")("autocomplete");
 
+var breakpoints = require("./breakpoints");
 var langTools = ace.require("ace/ext/language_tools");
 
 var addCompleter = function(fn) {
@@ -28,5 +28,6 @@ module.exports = {
     ace: ace,
     autocomplete: {
         add: addCompleter
-    }
+    },
+    breakpoints: breakpoints
 };

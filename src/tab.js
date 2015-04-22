@@ -6,6 +6,7 @@ var aceRange = ace.require("ace/range");
 
 var settings = require("./settings");
 var languages = require("./languages");
+var breakpoints = require("./breakpoints");
 
 var $ = codebox.require("jquery");
 var keyboard = codebox.require("utils/keyboard");
@@ -39,6 +40,9 @@ var Tab = codebox.tabs.Panel.extend({
 
         // Settings
         this.listenTo(settings.data, "set", this.onSettingsChange);
+
+        // Bind breakpoints
+        breakpoints.bindEditor(this);
 
         this.onSettingsChange();
         this.onCursorChange();
